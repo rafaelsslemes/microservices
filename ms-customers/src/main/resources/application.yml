@@ -2,6 +2,17 @@ spring:
     application:
         name: ms-customers
 
+    datasource:
+        url: jdbc:h2:mem:customers
+        username: sa
+        password:
+        driverClassName: org.h2.Driver
+    jpa:
+        # database: H2
+        show-sql: true
+        hibernate.ddl-auto: update
+        database-platform: org.hibernate.dialect.H2Dialect
+
 server:
     port: 0
 
