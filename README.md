@@ -1,6 +1,4 @@
-# microservices
-
-A microservices environment case
+# A microservices environment case
 
 ## A set of applications composing a microservices environment to develop knowlegment around Spring Cloud.
 
