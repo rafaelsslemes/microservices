@@ -1,6 +1,7 @@
 package com.study.mscreditcard.application;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class CreditCardController {
     @Autowired
     private CreditCardService service;
     
+    @GetMapping
     public String getStatus(){
         return "OK";
     }
@@ -50,5 +52,12 @@ public class CreditCardController {
             .toUri();
 
         return ResponseEntity.created(headerLocation).build();
+    }
+
+    @RequestMapping(params = "income")
+    public ResponseEntity<List<CreditCard>> getCompatibleCards(@RequestParam("income") Long customerIncome) {
+        List<CreditCard> cards = service.getCompatibleCards(customerIncome);
+
+        return ResponseEntity.ok().body(cards);
     }
 }
