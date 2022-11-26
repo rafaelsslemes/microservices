@@ -14,9 +14,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.study.mscustomers.application.representation.CustomerSaveRequest;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 @RestController
 @RequestMapping("customers")
+@Slf4j
 public class CustomerController {
 
     @Autowired
@@ -24,6 +27,7 @@ public class CustomerController {
     
     @GetMapping
     public String getStatus(){
+        log.info("Status Requested");
         return "OK";
     }
 
