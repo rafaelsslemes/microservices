@@ -1,6 +1,6 @@
 spring:
     application:
-        name: ms-credit-card
+        name: ms-credit-cards
 
 server:
     port: 0
