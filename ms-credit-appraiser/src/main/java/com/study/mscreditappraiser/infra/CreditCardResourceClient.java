@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.study.mscreditappraiser.domain.CreditCard;
 import com.study.mscreditappraiser.domain.CustomerCard;
 
 @FeignClient(value = "ms-credit-cards", path = "cards")
@@ -14,5 +15,7 @@ public interface CreditCardResourceClient {
     
     @RequestMapping(params = "doc")
     public ResponseEntity<List<CustomerCard>> getCustomerCards(@RequestParam String doc);
-    
+
+    @RequestMapping(params = "income")
+    public ResponseEntity<List<CreditCard>> getCompatibleCards(@RequestParam("income") Long customerIncome);
 }
