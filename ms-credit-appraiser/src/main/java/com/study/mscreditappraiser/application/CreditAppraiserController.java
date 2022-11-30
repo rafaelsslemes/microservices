@@ -70,7 +70,7 @@ public class CreditAppraiserController {
     public ResponseEntity issueCreditCard(@RequestBody CreditCardIssueData issueData){
 
         try {
-            CreditCardIssueProtocol protocol = creditAppraisalService.issueCreditCard(issueData);
+            CreditCardIssueProtocol protocol = creditAppraisalService.requestCreditCardIssue(issueData);
             return ResponseEntity.ok().body(protocol);
 
         } catch (CreditCardIssueException e) {
