@@ -3,7 +3,6 @@ package com.study.mscreditcard.application;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -68,10 +67,9 @@ public class CreditCardController {
     }
 
     @RequestMapping(params = "doc")
-    public ResponseEntity<List<CustomerCardDTO>> getCustomerCards(@RequestParam String doc) {
+    public ResponseEntity<List<CustomerCard>> getCustomerCards(@RequestParam String doc) {
         List<CustomerCard> cards = customerCardService.getCardByDoc(doc);
-        List<CustomerCardDTO> cardDTOs = cards.stream().map(CustomerCardDTO::fromModel).collect(Collectors.toList());   
         
-        return ResponseEntity.ok().body(cardDTOs);
+        return ResponseEntity.ok().body(cards);
     }
 }
