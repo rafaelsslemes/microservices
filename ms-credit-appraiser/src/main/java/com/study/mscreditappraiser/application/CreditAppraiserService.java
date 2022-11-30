@@ -2,6 +2,7 @@ package com.study.mscreditappraiser.application;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
@@ -9,14 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.study.mscreditappraiser.application.exception.CreditCardIssueException;
 import com.study.mscreditappraiser.application.exception.CustomerNotFoundException;
 import com.study.mscreditappraiser.application.exception.MicroserviceCommunicationException;
 import com.study.mscreditappraiser.domain.AppraisalResult;
 import com.study.mscreditappraiser.domain.ApprovedCard;
 import com.study.mscreditappraiser.domain.CreditCard;
+import com.study.mscreditappraiser.domain.CreditCardIssueData;
+import com.study.mscreditappraiser.domain.CreditCardIssueProtocol;
 import com.study.mscreditappraiser.domain.CustomerCard;
 import com.study.mscreditappraiser.domain.CustomerData;
 import com.study.mscreditappraiser.domain.CustomerState;
+import com.study.mscreditappraiser.infra.CreditCardIssuePublisher;
 import com.study.mscreditappraiser.infra.CreditCardResourceClient;
 import com.study.mscreditappraiser.infra.CustomerResourceClient;
 
@@ -30,6 +35,9 @@ public class CreditAppraiserService {
 
     @Autowired
     private CreditCardResourceClient creditCardResourceClient;
+
+    @Autowired
+    private CreditCardIssuePublisher creditCardIssuePublisher;
 
     public CustomerState getCustomerState(String doc) 
         throws CustomerNotFoundException, MicroserviceCommunicationException {
@@ -78,5 +86,19 @@ public class CreditAppraiserService {
                 }
                 throw new MicroserviceCommunicationException(e.status(), e.getMessage());
             }
+    }
+
+    public CreditCardIssueProtocol requestCreditCardIssue(CreditCardIssueData issueData) {
+        try {
+            creditCardIssuePublisher.issueCreditCard(issueData);
+            var protocolNumber = UUID.randomUUID().toString();
+            CreditCardIssueProtocol protocol = new CreditCardIssueProtocol(protocolNumber);
+            
+            return protocol;
+
+        } catch (Exception e){
+            throw new CreditCardIssueException(e.getMessage());
+        }
+
     }
 }
