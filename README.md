@@ -8,6 +8,10 @@ Tech Stack:
 * Spring Cloud
 * Eureka Server and Clients
 * API Gateway, LoadBalancer
+* RabbitMQ
+* OpenFeign
+* Keycloak
 * Spring Boot
 * Spring JPA
 * H2 Database
+* Lombok
