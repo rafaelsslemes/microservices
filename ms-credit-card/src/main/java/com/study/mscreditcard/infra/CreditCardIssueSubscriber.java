@@ -12,9 +12,11 @@ import com.study.mscreditcard.application.exception.InexistentCreditCardExceptio
 import com.study.mscreditcard.domain.CreditCardIssueData;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @RequiredArgsConstructor // Dismiss all @Autowired
+@Slf4j
 public class CreditCardIssueSubscriber {
 
     private final CustomerCardService customerCardService;
@@ -25,17 +27,20 @@ public class CreditCardIssueSubscriber {
         var mapper = new ObjectMapper();
 
         try {
-            var creditCardIssueData = mapper.readValue(payload, CreditCardIssueData.class);
-            customerCardService.issueCreditCard(creditCardIssueData);
+
+            CreditCardIssueData creditCardIssueData = mapper.readValue(payload, CreditCardIssueData.class);
         
+            try{
+                customerCardService.issueCreditCard(creditCardIssueData);
+            } catch (InexistentCreditCardException e) {
+                log.error("The requested Credit Cards doesn't exist. CARD_ID {}", creditCardIssueData.getCardId());  
+            }
+
         } catch (JsonMappingException e) {
-            e.printStackTrace();
+            log.error("Error during JSON mapping", e);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        } catch (InexistentCreditCardException e) {
-            e.printStackTrace();
-        }
+            log.error("Error during JSON processing", e);
+        } 
 
     }
-    
 }
