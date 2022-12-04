@@ -8,6 +8,7 @@ Tech Stack:
 * Spring Cloud
 * Eureka Server and Clients
 * API Gateway, LoadBalancer
+* Docker
 * RabbitMQ
 * OpenFeign
 * Keycloak
