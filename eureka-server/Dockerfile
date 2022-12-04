@@ -1,11 +1,24 @@
-# Indicates the base image
+# Indicates the MAVEN base image
+FROM maven:3.8.6-eclipse-temurin-19 as build
+
+# Creates a directory and points it
+WORKDIR /build
+
+# Copies all content from local dir to workdir
+COPY . . 
+
+# build Application Jar from source code
+RUN mvn clean package -DskipTests
+
+
+# Indicates the JDK base image
 FROM eclipse-temurin:19-jdk-ubi9-minimal
 
 # Creates a directory and points it
 WORKDIR /app
 
-# Copies build application and rename it
-COPY /target/eureka-server-0.0.1-SNAPSHOT.jar app.jar
+# Copies build application from maven container
+COPY --from=build ./build/target/*.jar ./app.jar
 
 # Exposes port
 EXPOSE 8761
