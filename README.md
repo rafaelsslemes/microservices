@@ -16,3 +16,44 @@ Tech Stack:
 * Spring JPA
 * H2 Database
 * Lombok
+
+# Docker usage
+
+## Build
+
+cd ./ms-customers
+docker build --tag ms-customers .
+
+cd ../ms-credit-card
+docker build --tag ms-credit-card .
+
+cd ../ms-credit-card
+docker build --tag ms-credit-card .
+
+cd ../ms-credit-appraiser
+docker build --tag ms-credit-appraiser .
+
+cd ../ms-cloud-gateway
+docker build --tag ms-cloud-gateway .
+
+cd ../eureka_server
+docker build --tag eureka_server .
+
+## Initialization
+
+docker network create microservices
+
+docker run -p 8081:8080 --network microservices -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:20.0.1 start-dev
+
+docker run -it --name rabbitmq -p 5672:5672 -p 15672:15672 --network microservices rabbitmq:3.9-management 
+
+docker run --name ms-eureka-server -p 8761:8761 --network microservices -d ms-eureka-server
+
+docker run --name ms-customers --network microservices -d -e EUREKA_SERVER=ms-eureka-server ms-customers
+
+docker run --name ms-credit-card --network microservices -d -e EUREKA_SERVER=ms-eureka-server -e RABBITMQ_SERVER=rabbitmq ms-credit-card
+
+docker run --name ms-credit-appraiser --network microservices -d -e EUREKA_SERVER=ms-eureka-server -e RABBITMQ_SERVER=rabbitmq ms-credit-appraiser
+
+docker run --name ms-cloud-gateway -p 8080:8080 --network microservices -d -e EUREKA_SERVER=ms-eureka-server ms-cloud-gateway
+
