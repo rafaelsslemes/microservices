@@ -13,4 +13,4 @@ COPY --from=build ./build/target/*.jar ./app.jar
 # Receive environment variables or use default
 ARG EUREKA_SERVER=localhost
 
-ENTRYPOINT java -jar ./app.jar
+ENTRYPOINT java -jar -Dspring.profiles.active=release ./app.jar

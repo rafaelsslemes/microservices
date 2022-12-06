@@ -13,4 +13,4 @@ COPY --from=build ./build/target/*.jar ./app.jar
 ARG EUREKA_SERVER=eureka_server
 ARG RABBITMQ_SERVER=rabbitmq_server
 
-ENTRYPOINT java -jar ./app.jar
+ENTRYPOINT java -jar -Dspring.profiles.active=release ./app.jar

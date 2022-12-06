@@ -16,4 +16,4 @@ ARG EUREKA_SERVER=eureka_server
 ARG KEYCLOAK_SERVER=localhost
 ARG KEYCLOAK_PORT=8081
 
-ENTRYPOINT java -jar ./app.jar
+ENTRYPOINT java -jar -Dspring.profiles.active=release ./app.jar
