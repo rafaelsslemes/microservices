@@ -12,7 +12,7 @@ spring:
         oauth2:
             resourceserver:
                 jwt:
-                    issuer-uri: http://keycloak:8081/realms/microservices-credit-card
+                    issuer-uri: http://${KEYCLOAK_SERVER}:${KEYCLOAK_PORT}/realms/microservices
 
 server:
     port: 8080
