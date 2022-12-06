@@ -20,7 +20,7 @@ eureka:
     client:
         register-with-eureka: true
         service-url:
-            defaultZone: http://eureka-user:123456@localhost:8761/eureka
+            defaultZone: http://eureka-user:123456@${EUREKA_SERVER}:8761/eureka
 
     instance:
         instance-id: ${spring.application.name}:${spring.application.instance.id:${random.value}}
